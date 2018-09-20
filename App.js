@@ -3,10 +3,12 @@ import { Text, Button } from 'react-native'
 import { createBottomTabNavigator } from 'react-navigation'
 import styled from 'styled-components'
 import HomeScreen from './screens/HomeScreen'
+import GameScreen from './screens/GameScreen'
 
 const TabNavigator = createBottomTabNavigator(
 	{
-		Home: HomeScreen
+		Home: HomeScreen,
+		Game: GameScreen
 	},
 	{
 		initialRouteName: 'Home'
