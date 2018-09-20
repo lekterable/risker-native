@@ -1,23 +1,20 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { Component } from 'react'
+import { Text, Button } from 'react-native'
+import { createBottomTabNavigator } from 'react-navigation'
+import styled from 'styled-components'
+import HomeScreen from './screens/HomeScreen'
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    )
-  }
+const TabNavigator = createBottomTabNavigator(
+	{
+		Home: HomeScreen
+	},
+	{
+		initialRouteName: 'Home'
+	}
+)
+
+export default class App extends Component {
+	render() {
+		return <TabNavigator />
+	}
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
