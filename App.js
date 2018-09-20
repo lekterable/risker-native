@@ -4,11 +4,13 @@ import { createBottomTabNavigator } from 'react-navigation'
 import styled from 'styled-components'
 import HomeScreen from './screens/HomeScreen'
 import GameScreen from './screens/GameScreen'
+import RankingScreen from './screens/RankingScreen'
 
 const TabNavigator = createBottomTabNavigator(
 	{
 		Home: HomeScreen,
-		Game: GameScreen
+		Game: GameScreen,
+		Ranking: RankingScreen
 	},
 	{
 		initialRouteName: 'Home'
