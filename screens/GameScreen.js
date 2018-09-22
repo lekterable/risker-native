@@ -26,9 +26,6 @@ class GameScreen extends React.Component {
 }
 
 export default connect(
-	state => ({ value: state.value }),
-	dispatch => ({
-		increase: () => dispatch(increaseValue()),
-		decrease: () => dispatch(decreaseValue())
-	})
+	state => ({}),
+	dispatch => ({})
 )(GameScreen)

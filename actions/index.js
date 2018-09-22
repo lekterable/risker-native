@@ -1,7 +1,4 @@
-export const increaseValue = value => ({
-	type: 'INC_VALUE'
-})
-
-export const decreaseValue = value => ({
-	type: 'DEC_VALUE'
+export const connectSocket = socket => ({
+	type: 'CONNECT_SOCKET',
+	payload: socket
 })
