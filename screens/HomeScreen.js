@@ -60,6 +60,11 @@ class HomeScreen extends React.Component {
 			})
 		})
 	}
+
+	invite = () => {
+		this.props.socket.emit('invitation', this.state.opponent)
+	}
+
 	render() {
 		return (
 			<Container>
@@ -80,10 +85,7 @@ class HomeScreen extends React.Component {
 				<TextInput onChangeText={opponent => this.setState({ opponent })}>
 					{this.state.opponent}
 				</TextInput>
-				<InviteButton
-					title="Invite"
-					onPress={() => console.log(this.state.opponent)}
-				/>
+				<InviteButton title="Invite" onPress={() => this.invite()} />
 			</Container>
 		)
 	}
