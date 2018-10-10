@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Button, TextInput } from 'react-native'
+import { Text, Alert, TextInput } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
@@ -62,8 +62,16 @@ class HomeScreen extends React.Component {
 	}
 
 	invite = () => {
-		this.props.socket.emit('invitation', this.state.opponent)
+		this.props.socket.emit(
+			'invitation',
+			this.state.opponent,
+			res => (res ? this.handleAcceptedInvite() : this.handleDeclinedInvite())
+		)
 	}
+
+	handleAcceptedInvite = () => Alert.alert('Invite accepted')
+
+	handleDeclinedInvite = () => Alert.alert('Invite declined')
 
 	render() {
 		return (
