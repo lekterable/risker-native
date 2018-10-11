@@ -54,6 +54,10 @@ class HomeScreen extends React.Component {
 	componentDidMount() {
 		this.props.socket.emit('info')
 
+		this.props.socket.on('start-game', () => {
+			this.props.navigation.navigate('Game')
+		})
+
 		this.props.socket.on('info', data => {
 			this.setState({
 				players: data.players.filter(player => player !== this.props.socket.id)
