@@ -63,6 +63,24 @@ class HomeScreen extends React.Component {
 				players: data.players.filter(player => player !== this.props.socket.id)
 			})
 		})
+
+		this.props.socket.on('invitation', (room, callback) => {
+			Alert.alert(
+				'Received an invitation!',
+				'',
+				[
+					{
+						text: 'Accept',
+						onPress: () => this.acceptInvite(room, callback(true))
+					},
+					{
+						text: 'Decline',
+						onPress: () => this.declineInvite(room, callback(false))
+					}
+				],
+				{ cancelable: false }
+			)
+		})
 	}
 
 	invite = () => {
