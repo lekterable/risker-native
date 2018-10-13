@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, Alert, TextInput } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { startGame, endGame } from '../actions'
 
 const Container = styled.View`
 	display: flex;
@@ -84,6 +85,8 @@ class HomeScreen extends React.Component {
 	}
 
 	invite = () => {
+		if (this.props.playing) return Alert.alert('You are already in game')
+		this.props.startGame(this.props.socket.id)
 		this.props.socket.emit(
 			'invitation',
 			this.state.opponent,
@@ -122,6 +125,9 @@ class HomeScreen extends React.Component {
 }
 
 export default connect(
-	state => ({ socket: state.socket }),
-	dispatch => ({})
+	state => ({ socket: state.socket, playing: state.playing }),
+	dispatch => ({
+		startGame: room => dispatch(startGame(room)),
+		endgGame: () => dispatch(endGame())
+	})
 )(HomeScreen)
