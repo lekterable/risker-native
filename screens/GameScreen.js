@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Text, Button } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -12,7 +12,22 @@ const Container = styled.View`
 	justify-content: center;
 `
 
-class GameScreen extends React.Component {
+class GameScreen extends Component {
+	state = {
+		turn: '',
+		host: '',
+		player: {
+			total: 0,
+			round: 0,
+			roll: [0, 0]
+		},
+		opponent: {
+			total: 0,
+			round: 0,
+			roll: [0, 0]
+		}
+	}
+
 	render() {
 		const { increase, decrease } = this.props
 		return (

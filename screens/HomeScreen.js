@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Text, Alert, TextInput } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -46,7 +46,7 @@ const Player = styled.Text`
 	border-radius: 5;
 `
 
-class HomeScreen extends React.Component {
+class HomeScreen extends Component {
 	state = {
 		players: [],
 		opponent: ''

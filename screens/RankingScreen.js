@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import styled from 'styled-components'
 
@@ -10,7 +10,7 @@ const Container = styled.View`
 	justify-content: center;
 `
 
-export default class GameScreen extends React.Component {
+export default class GameScreen extends Component {
 	render() {
 		return (
 			<Container>
