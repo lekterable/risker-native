@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Text, Button } from 'react-native'
+import { Text, Button, Alert } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { increaseValue, decreaseValue } from '../actions'
+import {} from '../actions'
 
 const Container = styled.View`
 	display: flex;
@@ -13,6 +13,14 @@ const Container = styled.View`
 `
 
 class GameScreen extends Component {
+	constructor(props) {
+		super(props)
+		if (!this.props.playing) {
+			Alert.alert('You are not in any game')
+			return this.props.navigation.navigate('Home')
+		}
+	}
+
 	state = {
 		turn: '',
 		host: '',
@@ -33,14 +41,12 @@ class GameScreen extends Component {
 		return (
 			<Container>
 				<Text>Game</Text>
-				<Button title="Increase" onPress={increase} />
-				<Button title="Decrease" onPress={decrease} />
 			</Container>
 		)
 	}
 }
 
 export default connect(
-	state => ({}),
+	state => ({ playing: state.playing }),
 	dispatch => ({})
 )(GameScreen)
