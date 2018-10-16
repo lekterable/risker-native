@@ -84,6 +84,12 @@ class HomeScreen extends Component {
 		})
 	}
 
+	componentWillUnmount() {
+		this.props.socket.off('start-game')
+		this.props.socket.off('info')
+		this.props.socket.off('invitation')
+	}
+
 	invite = () => {
 		if (this.props.playing) return Alert.alert('You are already in game')
 		this.props.startGame(this.props.socket.id)
