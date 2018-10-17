@@ -20,7 +20,22 @@ class GameScreen extends Component {
 			return this.props.navigation.navigate('Home')
 		}
 	}
-
+	componentDidMount() {
+		this.props.socket.emit('ready', game => {
+			const player = game.players.find(
+				player => player.id === this.props.socket.id
+			)
+			const opponent = game.players.find(
+				player => player.id !== this.props.socket.id
+			)
+			this.setState({
+				turn: game.turn,
+				host: game.host,
+				player: { ...player },
+				opponent: { ...opponent }
+			})
+		})
+	}
 	state = {
 		turn: '',
 		host: '',
@@ -37,7 +52,6 @@ class GameScreen extends Component {
 	}
 
 	render() {
-		const { increase, decrease } = this.props
 		return (
 			<Container>
 				<Text>Game</Text>
@@ -47,6 +61,6 @@ class GameScreen extends Component {
 }
 
 export default connect(
-	state => ({ playing: state.playing }),
+	state => ({ playing: state.playing, socket: state.socket }),
 	dispatch => ({})
 )(GameScreen)
