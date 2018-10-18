@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Button, Alert } from 'react-native'
+import { Text, Button, Alert, View } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import {} from '../actions'
@@ -54,7 +54,30 @@ class GameScreen extends Component {
 	render() {
 		return (
 			<Container>
-				<Text>Game</Text>
+				<View>
+					<View>
+						<Text>Opponent's total score: {this.state.opponent.total}</Text>
+						<Text>Opponent's round score: {this.state.opponent.round}</Text>
+						<Text>
+							Opponent's roll:
+							<Text>🎲</Text>
+							{this.state.opponent.roll[0]} and
+							<Text>🎲</Text>
+							{this.state.opponent.roll[1]}
+						</Text>
+					</View>
+					<View>
+						<Text>Your total score: {this.state.player.total}</Text>
+						<Text>Your round score: {this.state.player.round}</Text>
+						<Text>
+							Your roll:
+							<Text>🎲</Text>
+							{this.state.player.roll[0]} and
+							<Text>🎲</Text>
+							{this.state.player.roll[1]}
+						</Text>
+					</View>
+				</View>
 			</Container>
 		)
 	}
