@@ -104,6 +104,10 @@ class HomeScreen extends Component {
 
 	handleDeclinedInvite = () => Alert.alert('Invite declined')
 
+	acceptInvite = room => this.props.startGame(room)
+
+	declineInvite = room => this.props.endGame(room)
+
 	render() {
 		return (
 			<Container>
@@ -134,6 +138,6 @@ export default connect(
 	state => ({ socket: state.socket, playing: state.playing }),
 	dispatch => ({
 		startGame: room => dispatch(startGame(room)),
-		endgGame: () => dispatch(endGame())
+		endGame: () => dispatch(endGame())
 	})
 )(HomeScreen)
