@@ -94,8 +94,16 @@ class GameScreen extends Component {
 							{this.state.player.roll[1]}
 						</Text>
 					</View>
-					<Button title="Roll" onPress={() => console.log('Roll')} />
-					<Button title="End" onPress={() => console.log('End')} />
+					<Button
+						title="Roll"
+						onPress={() => console.log('Roll')}
+						disabled={this.props.socket.id !== this.state.turn}
+					/>
+					<Button
+						title="End"
+						onPress={() => console.log('End')}
+						disabled={this.props.socket.id !== this.state.turn}
+					/>
 				</View>
 			</Container>
 		)
