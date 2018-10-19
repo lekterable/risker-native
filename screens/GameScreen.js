@@ -20,6 +20,22 @@ class GameScreen extends Component {
 			return this.props.navigation.navigate('Home')
 		}
 	}
+
+	state = {
+		turn: '',
+		host: '',
+		player: {
+			total: 0,
+			round: 0,
+			roll: [0, 0]
+		},
+		opponent: {
+			total: 0,
+			round: 0,
+			roll: [0, 0]
+		}
+	}
+
 	componentDidMount() {
 		this.props.socket.emit('ready', game => {
 			const player = game.players.find(
@@ -35,20 +51,21 @@ class GameScreen extends Component {
 				opponent: { ...opponent }
 			})
 		})
-	}
-	state = {
-		turn: '',
-		host: '',
-		player: {
-			total: 0,
-			round: 0,
-			roll: [0, 0]
-		},
-		opponent: {
-			total: 0,
-			round: 0,
-			roll: [0, 0]
-		}
+
+		this.props.socket.on('update', game => {
+			const player = game.players.find(
+				player => player.id === this.props.socket.id
+			)
+			const opponent = game.players.find(
+				player => player.id !== this.props.socket.id
+			)
+			this.setState({
+				turn: game.turn,
+				host: game.host,
+				player: { ...player },
+				opponent: { ...opponent }
+			})
+		})
 	}
 
 	render() {
