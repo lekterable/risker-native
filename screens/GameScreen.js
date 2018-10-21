@@ -70,6 +70,8 @@ class GameScreen extends Component {
 
 	roll = () => this.props.socket.emit('turn-roll')
 
+	end = () => this.props.socket.emit('turn-end')
+
 	render() {
 		return (
 			<Container>
@@ -103,7 +105,7 @@ class GameScreen extends Component {
 					/>
 					<Button
 						title="End"
-						onPress={() => console.log('End')}
+						onPress={this.end}
 						disabled={this.props.socket.id !== this.state.turn}
 					/>
 				</View>
