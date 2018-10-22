@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, Button, Alert, View } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import {} from '../actions'
+import { endGame } from '../actions'
 
 const Container = styled.View`
 	display: flex;
@@ -38,6 +38,13 @@ class GameScreen extends Component {
 
 	componentDidMount() {
 		this.props.socket.emit('ready', game => {
+			if (!game && this.props.playing) {
+				this.props.endGame()
+				Alert.alert('Game has ended!')
+			}
+			if (!game) {
+				return this.props.navigation.navigate('Home')
+			}
 			const player = game.players.find(
 				player => player.id === this.props.socket.id
 			)
@@ -116,5 +123,5 @@ class GameScreen extends Component {
 
 export default connect(
 	state => ({ playing: state.playing, socket: state.socket }),
-	dispatch => ({})
+	dispatch => ({ endGame: () => dispatch(endGame()) })
 )(GameScreen)
