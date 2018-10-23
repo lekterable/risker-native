@@ -75,6 +75,10 @@ class GameScreen extends Component {
 		})
 	}
 
+	componentWillUnmount() {
+		this.props.socket.off('update')
+	}
+
 	roll = () => this.props.socket.emit('turn-roll')
 
 	end = () => this.props.socket.emit('turn-end')
