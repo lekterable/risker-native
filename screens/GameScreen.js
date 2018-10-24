@@ -73,6 +73,24 @@ class GameScreen extends Component {
 				opponent: { ...opponent }
 			})
 		})
+
+		this.props.socket.on('win', game => {
+			const player = game.players.find(
+				player => player.id === this.props.socket.id
+			)
+			const opponent = game.players.find(
+				player => player.id !== this.props.socket.id
+			)
+			this.setState({
+				turn: game.turn,
+				host: game.host,
+				player: { ...player },
+				opponent: { ...opponent }
+			})
+			console.log(
+				game.players.find(player => player.total + player.round >= 100)
+			)
+		})
 	}
 
 	componentWillUnmount() {
