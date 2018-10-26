@@ -66,6 +66,7 @@ class HomeScreen extends Component {
 		})
 
 		this.props.socket.on('invitation', (room, callback) => {
+			if (this.props.playing) return callback(false)
 			Alert.alert(
 				'Received an invitation!',
 				'',
