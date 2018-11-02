@@ -87,9 +87,12 @@ class GameScreen extends Component {
 				player: { ...player },
 				opponent: { ...opponent }
 			})
-			console.log(
-				game.players.find(player => player.total + player.round >= 100)
-			)
+
+			if (game.turn === this.props.socket.id) Alert.alert('You win!')
+			else Alert.alert('You lose!')
+
+			this.props.endGame()
+			return this.props.navigation.navigate('Home')
 		})
 	}
 
