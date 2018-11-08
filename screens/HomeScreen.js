@@ -36,6 +36,14 @@ const PlayerList = styled.FlatList`
 	flex: 1;
 `
 
+const InviteInput = styled.TextInput`
+	text-align: center;
+	width: 200;
+	border: 1px grey solid;
+	padding: 5px;
+	border-radius: 5;
+`
+
 const InviteButton = styled.Button``
 
 const Player = styled.Text`
@@ -94,10 +102,8 @@ class HomeScreen extends Component {
 	invite = () => {
 		if (this.props.playing) return Alert.alert('You are already in game')
 		this.props.startGame(this.props.socket.id)
-		this.props.socket.emit(
-			'invitation',
-			this.state.opponent,
-			res => (res ? this.handleAcceptedInvite() : this.handleDeclinedInvite())
+		this.props.socket.emit('invitation', this.state.opponent, res =>
+			res ? this.handleAcceptedInvite() : this.handleDeclinedInvite()
 		)
 	}
 
@@ -126,9 +132,9 @@ class HomeScreen extends Component {
 					)}
 					keyExtractor={(item, index) => index.toString()}
 				/>
-				<TextInput onChangeText={opponent => this.setState({ opponent })}>
+				<InviteInput onChangeText={opponent => this.setState({ opponent })}>
 					{this.state.opponent}
-				</TextInput>
+				</InviteInput>
 				<InviteButton title="Invite" onPress={() => this.invite()} />
 			</Container>
 		)
