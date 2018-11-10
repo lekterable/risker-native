@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import { createBottomTabNavigator } from 'react-navigation'
 import io from 'socket.io-client'
@@ -15,7 +16,32 @@ const TabNavigator = createBottomTabNavigator(
 		Ranking: RankingScreen
 	},
 	{
-		initialRouteName: 'Home'
+		initialRouteName: 'Home',
+		navigationOptions: ({ navigation }) => ({
+			tabBarIcon: ({ focused, horizontal, tintColor }) => {
+				const { routeName } = navigation.state
+				let iconName
+				if (routeName === 'Home') {
+					iconName = `ios-home${focused ? '' : '-outline'}`
+				} else if (routeName === 'Game') {
+					iconName = `ios-game-controller-b${focused ? '' : '-outline'}`
+				} else if (routeName === 'Ranking') {
+					iconName = `ios-people${focused ? '' : '-outline'}`
+				}
+
+				return (
+					<Ionicons
+						name={iconName}
+						size={horizontal ? 20 : 25}
+						color={tintColor}
+					/>
+				)
+			}
+		}),
+		tabBarOptions: {
+			activeTintColor: 'tomato',
+			inactiveTintColor: 'gray'
+		}
 	}
 )
 
