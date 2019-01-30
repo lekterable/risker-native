@@ -15,10 +15,12 @@ const Container = styled.View`
 class GameScreen extends Component {
 	constructor(props) {
 		super(props)
-		if (!this.props.playing) {
-			Alert.alert('You are not in any game')
-			return this.props.navigation.navigate('Home')
-		}
+		this.props.navigation.addListener('willFocus', () => {
+			if (!this.props.playing) {
+				Alert.alert('You are not in any game')
+				return this.props.navigation.navigate('Home')
+			}
+		})
 	}
 
 	state = {
