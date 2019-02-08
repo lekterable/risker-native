@@ -4,11 +4,11 @@ import store from './store'
 import Root from './screens'
 
 export default class App extends Component {
-	render() {
-		return (
-			<Provider store={store}>
-				<Root />
-			</Provider>
-		)
-	}
+  render() {
+    return (
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    )
+  }
 }
