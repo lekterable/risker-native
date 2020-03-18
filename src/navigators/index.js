@@ -4,9 +4,9 @@ import { createAppContainer, createBottomTabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
 import { connectSocket } from '../actions'
-import GameScreen from './GameScreen'
-import HomeScreen from './HomeScreen'
-import RankingScreen from './RankingScreen'
+import GameScreen from '../components/Game'
+import HomeScreen from '../components/Home'
+import RankingScreen from '../components/Ranking'
 
 const TabNavigator = createAppContainer(
   createBottomTabNavigator(

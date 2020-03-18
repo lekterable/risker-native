@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Alert, Text } from 'react-native'
 import { connect } from 'react-redux'
 import styled from 'styled-components/native'
-import { endGame, startGame } from '../actions'
+import { endGame, startGame } from '../../actions'
 
 const Container = styled.View`
   display: flex;

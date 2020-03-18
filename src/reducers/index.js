@@ -1,10 +1,12 @@
+import { CONNECT_SOCKET, END_GAME, START_GAME } from '../actions'
+
 export default (state = { socket: {} }, action) => {
   switch (action.type) {
-    case 'CONNECT_SOCKET':
+    case CONNECT_SOCKET:
       return { ...state, socket: action.payload }
-    case 'START_GAME':
+    case START_GAME:
       return { ...state, room: action.payload, playing: true }
-    case 'END_GAME':
+    case END_GAME:
       return { ...state, room: '', playing: false }
     default:
       return state
