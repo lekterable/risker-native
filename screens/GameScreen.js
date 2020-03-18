@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, Button, Alert, View } from 'react-native'
-import styled from 'styled-components'
+import { Alert, Button, Text, View } from 'react-native'
 import { connect } from 'react-redux'
+import styled from 'styled-components/native'
 import { endGame } from '../actions'
 
 const Container = styled.View`

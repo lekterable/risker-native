@@ -1,48 +1,49 @@
 import React, { Component } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { createAppContainer, createBottomTabNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
-import { createBottomTabNavigator } from 'react-navigation'
 import io from 'socket.io-client'
 import { connectSocket } from '../actions'
-
-import HomeScreen from './HomeScreen'
 import GameScreen from './GameScreen'
+import HomeScreen from './HomeScreen'
 import RankingScreen from './RankingScreen'
 
-const TabNavigator = createBottomTabNavigator(
-  {
-    Home: HomeScreen,
-    Game: GameScreen,
-    Ranking: RankingScreen
-  },
-  {
-    initialRouteName: 'Home',
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state
-        let iconName
-        if (routeName === 'Home') {
-          iconName = `ios-home${focused ? '' : '-outline'}`
-        } else if (routeName === 'Game') {
-          iconName = `ios-game-controller-b${focused ? '' : '-outline'}`
-        } else if (routeName === 'Ranking') {
-          iconName = `ios-people${focused ? '' : '-outline'}`
-        }
+const TabNavigator = createAppContainer(
+  createBottomTabNavigator(
+    {
+      Home: HomeScreen,
+      Game: GameScreen,
+      Ranking: RankingScreen
+    },
+    {
+      initialRouteName: 'Home',
+      navigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+          const { routeName } = navigation.state
+          let iconName
+          if (routeName === 'Home') {
+            iconName = `ios-home${focused ? '' : '-outline'}`
+          } else if (routeName === 'Game') {
+            iconName = `ios-game-controller-b${focused ? '' : '-outline'}`
+          } else if (routeName === 'Ranking') {
+            iconName = `ios-people${focused ? '' : '-outline'}`
+          }
 
-        return (
-          <Ionicons
-            name={iconName}
-            size={horizontal ? 20 : 25}
-            color={tintColor}
-          />
-        )
+          return (
+            <Ionicons
+              name={iconName}
+              size={horizontal ? 20 : 25}
+              color={tintColor}
+            />
+          )
+        }
+      }),
+      tabBarOptions: {
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray'
       }
-    }),
-    tabBarOptions: {
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray'
     }
-  }
+  )
 )
 
 class Root extends Component {
@@ -55,9 +56,6 @@ class Root extends Component {
   }
 }
 
-export default connect(
-  () => ({}),
-  dispatch => ({
-    connectSocket: socket => dispatch(connectSocket(socket))
-  })
-)(Root)
+export default connect(null, dispatch => ({
+  connectSocket: socket => dispatch(connectSocket(socket))
+}))(Root)

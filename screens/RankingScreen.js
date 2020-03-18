@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import styled from 'styled-components'
+import { Text } from 'react-native'
+import styled from 'styled-components/native'
 
 const Container = styled.View`
   display: flex;

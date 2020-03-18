@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Text, Alert, TextInput } from 'react-native'
-import styled from 'styled-components'
+import { Alert, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { startGame, endGame } from '../actions'
+import styled from 'styled-components/native'
+import { endGame, startGame } from '../actions'
 
 const Container = styled.View`
   display: flex;
