@@ -1,144 +1,89 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Text } from 'react-native'
 import { connect } from 'react-redux'
-import styled from 'styled-components/native'
 import { endGame, startGame } from '../../actions'
+import * as Styled from './styled'
 
-const Container = styled.View`
-  display: flex;
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-  justify-content: center;
-`
+const Home = ({ socket, navigation, playing, startGame, endGame }) => {
+  const [players, setPlayers] = useState([])
+  const [opponent, setOpponent] = useState('')
 
-const IDWrapper = styled.View`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`
+  useEffect(() => {
+    socket.emit('info')
 
-const IDLabel = styled.Text``
-
-const IDField = styled.Text`
-  text-align: center;
-  width: 200;
-  border: 1px grey solid;
-  padding: 5px;
-  border-radius: 5;
-  margin-top: 5;
-`
-
-const PlayerList = styled.FlatList`
-  margin-top: 5;
-  flex: 1;
-`
-
-const InviteInput = styled.TextInput`
-  text-align: center;
-  width: 200;
-  border: 1px grey solid;
-  padding: 5px;
-  border-radius: 5;
-`
-
-const InviteButton = styled.Button``
-
-const Player = styled.Text`
-  text-align: center;
-  width: 200;
-  border: 1px grey solid;
-  padding: 5px;
-  border-radius: 5;
-`
-
-class HomeScreen extends Component {
-  state = {
-    players: [],
-    opponent: ''
-  }
-
-  componentDidMount() {
-    this.props.socket.emit('info')
-
-    this.props.socket.on('start-game', () => {
-      this.props.navigation.navigate('Game')
+    socket.on('start-game', () => {
+      navigation.navigate('Game')
     })
 
-    this.props.socket.on('info', data => {
-      this.setState({
-        players: data.players.filter(player => player !== this.props.socket.id)
-      })
+    socket.on('info', data => {
+      const newPlayers = data.players.filter(player => player !== socket.id)
+      setPlayers(newPlayers)
     })
 
-    this.props.socket.on('invitation', (room, callback) => {
-      if (this.props.playing) return callback(false)
+    socket.on('invitation', (room, callback) => {
+      if (playing) return callback(false)
       Alert.alert(
         'Received an invitation!',
         '',
         [
           {
             text: 'Accept',
-            onPress: () => this.acceptInvite(room, callback(true))
+            onPress: () => acceptInvite(room, callback(true))
           },
           {
             text: 'Decline',
-            onPress: () => this.declineInvite(room, callback(false))
+            onPress: () => declineInvite(room, callback(false))
           }
         ],
         { cancelable: false }
       )
     })
-  }
+    return () => {
+      socket.off('start-game')
+      socket.off('info')
+      socket.off('invitation')
+    }
+  }, [])
 
-  componentWillUnmount() {
-    this.props.socket.off('start-game')
-    this.props.socket.off('info')
-    this.props.socket.off('invitation')
-  }
-
-  invite = () => {
-    if (this.props.playing) return Alert.alert('You are already in game')
-    this.props.startGame(this.props.socket.id)
-    this.props.socket.emit('invitation', this.state.opponent, res =>
-      res ? this.handleAcceptedInvite() : this.handleDeclinedInvite()
+  const invite = () => {
+    if (playing) return Alert.alert('You are already in game')
+    startGame(socket.id)
+    socket.emit('invitation', opponent, res =>
+      res ? handleAcceptedInvite() : handleDeclinedInvite()
     )
   }
 
-  handleAcceptedInvite = () => Alert.alert('Invite accepted')
+  const handleAcceptedInvite = () => Alert.alert('Invite accepted')
+  const handleDeclinedInvite = () => Alert.alert('Invite declined')
+  const acceptInvite = room => startGame(room)
+  const declineInvite = room => endGame(room)
 
-  handleDeclinedInvite = () => Alert.alert('Invite declined')
-
-  acceptInvite = room => this.props.startGame(room)
-
-  declineInvite = room => this.props.endGame(room)
-
-  render() {
-    return (
-      <Container>
-        <IDWrapper>
-          <IDLabel>My ID:</IDLabel>
-          <IDField>{this.props.socket.id}</IDField>
-        </IDWrapper>
-        <Text>Players:</Text>
-        <PlayerList
-          data={this.state.players}
-          renderItem={({ item }) => (
-            <Player onPress={() => this.setState({ opponent: item })}>
-              {item}
-            </Player>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-        <InviteInput onChangeText={opponent => this.setState({ opponent })}>
-          {this.state.opponent}
-        </InviteInput>
-        <InviteButton title="Invite" onPress={() => this.invite()} />
-      </Container>
-    )
-  }
+  return (
+    <Styled.Container>
+      <Styled.Wrapper>
+        <Styled.Label>My ID:</Styled.Label>
+        <Styled.ID>{socket.id}</Styled.ID>
+      </Styled.Wrapper>
+      <Text>Players:</Text>
+      <Styled.PlayerList
+        data={players}
+        renderItem={({ item }) => (
+          <Styled.Player onPress={() => setOpponent(item)}>
+            {item}
+          </Styled.Player>
+        )}
+        keyExtractor={(_, index) => index.toString()}
+      />
+      <Styled.InviteInput onChangeText={opponent => setOpponent(opponent)}>
+        {opponent}
+      </Styled.InviteInput>
+      <Styled.InviteButton
+        title="Invite"
+        onPress={invite}
+        disabled={!opponent}
+      />
+    </Styled.Container>
+  )
 }
 
 export default connect(
@@ -147,4 +92,4 @@ export default connect(
     startGame: room => dispatch(startGame(room)),
     endGame: () => dispatch(endGame())
   })
-)(HomeScreen)
+)(Home)
